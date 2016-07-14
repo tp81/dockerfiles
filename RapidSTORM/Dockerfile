@@ -14,3 +14,5 @@ RUN apt-get update
 RUN apt-get install -y super-resolution-de-keyring  --allow-unauthenticated
 RUN apt-get update
 RUN apt-get install -y rapidstorm
+
+CMD ["/bin/sh"]
