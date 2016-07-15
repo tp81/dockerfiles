@@ -14,3 +14,14 @@ RUN apt-get update
 RUN apt-get install -y super-resolution-de-keyring  --allow-unauthenticated
 RUN apt-get update
 RUN apt-get install -y rapidstorm
+
+RUN apt-get install -y xvfb
+
+RUN echo "Xvfb :1 -screen 0 1024x768x16 &> xvfb.log &" > go.sh
+RUN echo "rapidstorm \$* " >> go.sh
+
+ENV DISPLAY :1.0
+
+ENTRYPOINT ["bash","go.sh"]
+
+CMD ["--Help"]
