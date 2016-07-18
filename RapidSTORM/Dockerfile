@@ -1,3 +1,4 @@
+
 FROM ubuntu:14.10
 
 RUN sed -i 's/archive/old-releases/g' /etc/apt/sources.list
@@ -17,11 +18,10 @@ RUN apt-get install -y rapidstorm
 
 RUN apt-get install -y xvfb
 
-RUN echo "Xvfb :1 -screen 0 1024x768x16 &> xvfb.log &" > go.sh
-RUN echo "rapidstorm \$* " >> go.sh
+RUN echo "xvfb-run -a rapidstorm \$* " >> go.sh
 
 ENV DISPLAY :1.0
 
-ENTRYPOINT ["bash","go.sh"]
+ENTRYPOINT ["bash","-x","go.sh"]
 
 CMD ["--Help"]
