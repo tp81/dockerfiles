@@ -7,7 +7,7 @@ endfor
 printf ("\n");
 
 if nargin<1
-	printf("Usage : docker run -it tp81/octave-countnuclei2D imagefile.tif")
+	printf("Usage : docker run -it -v \"DIRECTORYWITHIMAGES:/data\" tp81/octave-countnuclei2D /data/imagefile.tif")
 end
 
 imagename = arg_list{1};
