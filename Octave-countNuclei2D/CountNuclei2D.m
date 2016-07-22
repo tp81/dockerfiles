@@ -1,19 +1,16 @@
-% Read command line arguments
-arg_list = argv ();
-printf ("Arguments : ")
-for i = 1:nargin
-  printf (" %s", arg_list{i});
-endfor
-printf ("\n");
+function CountNuclei2D(imagename)
 
 if nargin<1
-	printf("Usage : docker run -it -v \"DIRECTORYWITHIMAGES:/data\" tp81/octave-countnuclei2D /data/imagefile.tif")
+	printf('Usage : docker run -it -v "DIRECTORYWITHIMAGES:/data" tp81/octave-countnuclei2D /data/imagefile.tif')
 end
 
-imagename = arg_list{1};
-
-% Load image processing package
-pkg load image
+% Load image processing package if in Octave
+if exist('pkg')
+    SW='OCTAVE';
+    pkg load image
+else
+    SW='MATLAB';
+end
 
 % Read in the image
 I = imread(imagename);
@@ -26,20 +23,20 @@ I1b = im2bw(I1,graythresh(I1));
 
 % Region properties
 propnames = {'Area','EquivDiameter','EulerNumber','Extent','Perimeter','FilledArea','MaxIntensity','MinIntensity','MeanIntensity','Orientation','Eccentricity','MajorAxisLength','MinorAxisLength'};
-props = regionprops(I1b,propnames);
+props = regionprops(I1b,I1,propnames);
 
 % Build table
 tb=[]; for p=propnames; tb=[tb cat(1,props.(p{1}))]; end
 
 % Save mask
-imwrite(I1b,[imagename '-MATLAB-mask.tif']);
+imwrite(I1b,[imagename '-' SW '-mask.tif']);
 
 % Output table
-fd = fopen([imagename '-MATLAB-analysis.csv'],'w');
+fd = fopen([imagename '-' SW '-analysis.csv'],'w');
 fprintf(fd,'%s,',propnames{1:end-1}); fprintf(fd,'%s\n',propnames{end});
-fprintf(fd,[repmat('%f,',1,length(propnames)-1) '%f\n'],tb')
+fprintf(fd,[repmat('%f,',1,length(propnames)-1) '%f\n'],tb');
 fclose(fd);
 
-printf("Done!\n")
+fprintf('Done!\n')
 
  
