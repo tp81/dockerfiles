@@ -1,0 +1,5 @@
+FROM tp81/imagej-macro:latest
+
+COPY MandersCoefficients.ijm .
+
+ENTRYPOINT ["sh","go.sh","MandersCoefficients.ijm"]
