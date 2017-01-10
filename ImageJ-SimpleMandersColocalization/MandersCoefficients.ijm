@@ -24,7 +24,6 @@ run("Convert to Mask","method=Triangle");
 close(t);
 rename("CH1");
 getRawStatistics(nPixels, mean);
-print(mean);
 A = nPixels * mean;
 
 open(file2);
