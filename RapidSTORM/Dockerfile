@@ -18,10 +18,10 @@ RUN apt-get install -y rapidstorm
 
 RUN apt-get install -y xvfb
 
-RUN echo "xvfb-run -a rapidstorm \$* " >> go.sh
+RUN echo "xvfb-run -a rapidstorm \$* " >> /root/go.sh
 
 ENV DISPLAY :1.0
 
-ENTRYPOINT ["bash","-x","go.sh"]
+ENTRYPOINT ["bash","-x","/root/go.sh"]
 
 CMD ["--Help"]
